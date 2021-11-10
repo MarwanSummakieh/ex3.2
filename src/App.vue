@@ -1,16 +1,56 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+    <h3>Create New Data</h3>
+    <FormToGoToServer @on-submit="submit" />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+//import HelloWorld from './components/HelloWorld.vue'
+import axios from 'axios';
+import FormToGoToServer from './components/FormToGoToServer.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    FormToGoToServer
+  },
+  data(){
+    return {
+      forcast: null
+    }
+  },
+mounted(){
+  axios
+  .get('http://localhost:8080/forecast/Horsens')
+  .then(response => console.log(response))
+  .catch(error => console.log(error));
+   axios
+  .get('http://localhost:8080/forecast/Aarhus')
+  .then(response => console.log(response))
+  .catch(error => console.log(error));
+   axios
+  .get('http://localhost:8080/forecast/Copenhagen')
+  .then(response => console.log(response))
+  .catch(error => console.log(error));
+  axios
+  .post("http://localhost:8080/data", {/*params here*/})
+},
+methods:
+{
+   submit(){
+          axios
+            .post("http://localhost:8080/data",this.form)
+            .then(function (response) {
+				alert(response.statusText)
+				console.log(response);
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+      }
+}
+
 }
 </script>
 
